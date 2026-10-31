@@ -1,0 +1,435 @@
+import type { Locale } from "@/i18n/config";
+import { site } from "./site";
+import type { LabItem, Localized, Project, ProjectSource } from "./types";
+
+const GH = site.github;
+
+/**
+ * Ajouter un projet : copie un bloc, change le slug (= URL /fr/projets/<slug> et /en/projets/<slug>),
+ * remplis `text.fr` ET `text.en`, mets les captures dans /public/projects/<slug>/.
+ * L'ordre du tableau est l'ordre d'affichage.
+ */
+const sources: ProjectSource[] = [
+  {
+    slug: "vibecore",
+    kind: "client",
+    strand: "ecom",
+    stack: ["Next.js 16", "TypeScript", "Tailwind CSS 4", "shadcn/ui", "React Hook Form + Zod", "Framer Motion"],
+    links: [{ label: { fr: "Code sur GitHub", en: "Code on GitHub" }, href: `${GH}/vibecore-fashion-store` }],
+    featured: true,
+    published: true,
+    text: {
+      fr: {
+        title: "VIBECORE",
+        period: "2026 · en cours",
+        summary: "La boutique en ligne de la marque VIBECORE, du catalogue au dashboard admin.",
+        context: "VIBECORE est une marque de mode premium et streetwear. Il lui fallait sa propre boutique en ligne.",
+        goal: "Offrir un parcours d’achat fluide, du catalogue jusqu’au panier.",
+        role: "Base générée avec une IA, puis entièrement revue, corrigée et adaptée par moi : structure, interfaces, parcours d’achat.",
+        features: ["Catalogue produits", "Filtres", "Panier", "Wishlist", "Dashboard admin", "Design responsive"],
+        challenges: [],
+        pending: ["Mise en ligne (domaine en attente)", "Accord du client pour publier", "Captures"],
+      },
+      en: {
+        title: "VIBECORE",
+        period: "2026 · in progress",
+        summary: "The online store for the VIBECORE brand, from catalog to admin dashboard.",
+        context: "VIBECORE is a premium streetwear brand. It needed its own online store.",
+        goal: "A smooth shopping journey, from catalog to cart.",
+        role: "AI-generated starting point, then fully reviewed, fixed and reworked by me: structure, interfaces, checkout flow.",
+        features: ["Product catalog", "Filters", "Cart", "Wishlist", "Admin dashboard", "Responsive design"],
+        challenges: [],
+        pending: ["Go-live (domain pending)", "Client approval to publish", "Screenshots"],
+      },
+    },
+  },
+  {
+    slug: "shopify-ecommerce",
+    kind: "pro",
+    strand: "ecom",
+    stack: ["Shopify", "Thèmes Liquid", "Apps Shopify", "Outils navigateur"],
+    links: [],
+    featured: true,
+    published: true,
+    text: {
+      fr: {
+        title: "Shopify & e-commerce",
+        period: "2025 – aujourd’hui",
+        summary: "Boutiques de marque, boutiques de collaborateurs et support d’apps Shopify.",
+        context:
+          "Des marques et des collaborateurs qui vendent sur Shopify, et des marchands qui utilisent des apps (offres groupées, abonnements, upsells) quand quelque chose coince.",
+        goal: "Des boutiques qui vendent, et une expérience d’achat qui ne casse pas.",
+        role: "Création de boutiques pour des marques, gestion de boutiques de collaborateurs, et support client chez un éditeur d’applications Shopify : reproduction des bugs, diagnostic, remontée documentée à l’équipe technique.",
+        features: [
+          "Création de boutiques de marque",
+          "Gestion de boutiques",
+          "Bundles et offres groupées",
+          "Abonnements et selling plans",
+          "Tests A/B d’offres",
+          "Codes de réduction",
+          "Panier et upsell post-achat",
+        ],
+        challenges: [
+          {
+            problem: "Un bug qui n’apparaît que chez un marchand",
+            solution: "Reproduire sur une boutique de test avec le même thème et la même configuration.",
+          },
+          { problem: "Conflits entre thème et application", solution: "Isoler le composant fautif avant de remonter le ticket." },
+        ],
+        results: [
+          { value: "CA$5,298.95", label: "ventes totales" },
+          { value: "CA$4,618.47", label: "ventes nettes" },
+          { value: "41", label: "commandes" },
+        ],
+        resultsSource: "Tableau de bord Shopify d’une boutique suivie (marque confidentielle), 1er–16 avril 2026.",
+        pending: ["Boutiques montrables (liens, captures)"],
+      },
+      en: {
+        title: "Shopify & e-commerce",
+        period: "2025 – present",
+        summary: "Brand stores, partner stores and Shopify app support.",
+        context:
+          "Brands and partners selling on Shopify, and merchants using apps (bundles, subscriptions, upsells) when something breaks.",
+        goal: "Stores that sell, and a shopping experience that doesn’t break.",
+        role: "Building stores for brands, running partner stores, and customer support at a Shopify app publisher: reproducing bugs, diagnosing them, and escalating documented issues to the dev team.",
+        stack: ["Shopify", "Liquid themes", "Shopify apps", "Browser dev tools"],
+        features: [
+          "Brand store builds",
+          "Store management",
+          "Bundles and product offers",
+          "Subscriptions and selling plans",
+          "Offer A/B tests",
+          "Discount codes",
+          "Cart and post-purchase upsells",
+        ],
+        challenges: [
+          {
+            problem: "A bug that only shows up for one merchant",
+            solution: "Reproduce it on a test store with the same theme and settings.",
+          },
+          { problem: "Theme vs. app conflicts", solution: "Isolate the faulty component before escalating the ticket." },
+        ],
+        results: [
+          { value: "CA$5,298.95", label: "total sales" },
+          { value: "CA$4,618.47", label: "net sales" },
+          { value: "41", label: "orders" },
+        ],
+        resultsSource: "Shopify dashboard of a store I support (brand kept confidential), April 1–16, 2026.",
+        pending: ["Stores I can show (links, screenshots)"],
+      },
+    },
+  },
+  {
+    slug: "cdc-freelanceur",
+    kind: "perso",
+    strand: "web",
+    stack: ["Next.js 15", "TypeScript", "Tailwind CSS 4", "NextAuth", "TipTap", "React Hook Form + Zod", "Recharts"],
+    links: [{ label: { fr: "Code sur GitHub", en: "Code on GitHub" }, href: `${GH}/cdc-freelanceur` }],
+    featured: true,
+    published: true,
+    text: {
+      fr: {
+        title: "CDC Freelanceur",
+        period: "2025",
+        summary: "Un espace façon Notion où les freelances débutants trouvent des projets déjà cadrés à réaliser.",
+        context:
+          "Quand on débute en freelance, le plus dur est souvent de savoir quoi construire pour s’entraîner et remplir son portfolio.",
+        goal: "Proposer des idées de projets avec leur cahier des charges, prêtes à être réalisées.",
+        role: "Projet personnel. Développement complet.",
+        features: ["Comptes utilisateurs", "Éditeur riche façon Notion", "Cahiers des charges de projets", "Formulaires validés", "Graphiques"],
+        challenges: [],
+        pending: ["Lien de démo", "Captures"],
+      },
+      en: {
+        title: "CDC Freelanceur",
+        period: "2025",
+        summary: "A Notion-style space where beginner freelancers find ready-to-build, fully scoped project ideas.",
+        context:
+          "When you start freelancing, the hardest part is often knowing what to build to practice and fill your portfolio.",
+        goal: "Offer project ideas with their specs, ready to be built.",
+        role: "Personal project. Built end to end.",
+        features: ["User accounts", "Notion-style rich editor", "Project specs", "Validated forms", "Charts"],
+        challenges: [],
+        pending: ["Demo link", "Screenshots"],
+      },
+    },
+  },
+  {
+    slug: "boutique-produits-numeriques",
+    kind: "perso",
+    strand: "ecom",
+    stack: ["Chariow", "Publicité en ligne", "Réseaux sociaux"],
+    links: [],
+    published: true,
+    text: {
+      fr: {
+        title: "Boutique de produits numériques",
+        period: "2026",
+        summary: "Une boutique Chariow de produits numériques : 581 ventes en un peu plus de trois mois.",
+        context: "Une boutique de produits numériques sur Chariow, lancée et animée par moi.",
+        goal: "Générer des ventes régulières avec un petit catalogue.",
+        role: "Création de la boutique et des produits, puis acquisition par la publicité et les réseaux sociaux.",
+        features: ["3 produits numériques", "Panier moyen de 2 000 FCFA"],
+        results: [
+          { value: "581", label: "ventes" },
+          { value: "1 162 000 FCFA", label: "de revenu" },
+          { value: "3 produits", label: "au catalogue" },
+        ],
+        resultsSource: "Tableau de bord Chariow, du 1er février au 9 mai 2026.",
+        challenges: [],
+      },
+      en: {
+        title: "Digital products store",
+        period: "2026",
+        summary: "A Chariow store selling digital products: 581 sales in just over three months.",
+        context: "A digital products store on Chariow, launched and run by me.",
+        goal: "Generate steady sales with a small catalog.",
+        role: "Built the store and the products, then drove traffic with paid ads and social media.",
+        stack: ["Chariow", "Online ads", "Social media"],
+        features: ["3 digital products", "Average order of 2,000 XOF"],
+        results: [
+          { value: "581", label: "sales" },
+          { value: "1,162,000 XOF", label: "revenue (≈ €1,770)" },
+          { value: "3 products", label: "in the catalog" },
+        ],
+        resultsSource: "Chariow dashboard, February 1 – May 9, 2026.",
+        challenges: [],
+      },
+    },
+  },
+  {
+    slug: "fidevo-friym",
+    kind: "pro",
+    strand: "web",
+    stack: ["TypeScript", "Next.js", "React"],
+    links: [
+      { label: { fr: "ChronoFid (démo)", en: "ChronoFid (demo)" }, href: "https://fidevo-countio.vercel.app/" },
+      {
+        label: { fr: "Espace ambassadeurs (archive)", en: "Ambassador portal (archive)" },
+        href: "https://web.archive.org/web/2025/https://ambassador.friym.com/ambassadeurs",
+      },
+    ],
+    published: true,
+    text: {
+      fr: {
+        title: "Fidevo / Friym",
+        period: "2024 – fin 2025",
+        summary: "Collaborateur chez Fidevo : site Friym, espace admin et espace ambassadeurs.",
+        context: "Fidevo / Friym développe des produits numériques. J’y ai travaillé comme collaborateur, au sein de l’équipe.",
+        goal: "Construire et faire évoluer les outils web de l’entreprise.",
+        role: "Développement du site web Friym, de l’espace d’administration, de l’espace ambassadeurs et de ChronoFid.",
+        features: ["Site web Friym", "Espace admin", "Espace ambassadeurs", "ChronoFid"],
+        challenges: [],
+        pending: ["Captures admin et ambassadeurs (sans données personnelles)"],
+      },
+      en: {
+        title: "Fidevo / Friym",
+        period: "2024 – late 2025",
+        summary: "Team member at Fidevo: Friym website, admin area and ambassador portal.",
+        context: "Fidevo / Friym builds digital products. I worked there as part of the team.",
+        goal: "Build and evolve the company’s web tools.",
+        role: "Built the Friym website, the admin area, the ambassador portal and ChronoFid.",
+        features: ["Friym website", "Admin area", "Ambassador portal", "ChronoFid"],
+        challenges: [],
+        pending: ["Admin and ambassador screenshots (no personal data)"],
+      },
+    },
+  },
+  {
+    slug: "chronofid",
+    kind: "pro",
+    strand: "web",
+    stack: ["TypeScript", "Next.js", "React"],
+    links: [{ label: { fr: "Voir ChronoFid", en: "Open ChronoFid" }, href: "https://fidevo-countio.vercel.app/" }],
+    published: true,
+    text: {
+      fr: {
+        title: "ChronoFid",
+        period: "2024 – 2025",
+        summary: "Le compte à rebours de Fidevo avant chaque lancement d’app ou de mise à jour.",
+        context: "Chez Fidevo, chaque sortie d’app ou de mise à jour s’annonce. Il fallait un rendez-vous visible avant le jour J.",
+        goal: "Lancer un chronométrage public jusqu’au moment de la sortie.",
+        role: "Développement de l’application pour Fidevo. Publication autorisée par le PDG.",
+        features: ["Compte à rebours jusqu’au jour J", "Page de lancement"],
+        challenges: [],
+        pending: ["Capture"],
+      },
+      en: {
+        title: "ChronoFid",
+        period: "2024 – 2025",
+        summary: "Fidevo’s countdown before every app launch or update.",
+        context: "At Fidevo, every app release or update gets announced. It needed a visible countdown to launch day.",
+        goal: "Run a public countdown until the release.",
+        role: "Built the app for Fidevo. Publishing approved by the CEO.",
+        features: ["Countdown to launch day", "Launch page"],
+        challenges: [],
+        pending: ["Screenshot"],
+      },
+    },
+  },
+  {
+    slug: "stage-ci-tech",
+    kind: "pro",
+    strand: "web",
+    stack: ["PHP", "Laravel", "MySQL"],
+    links: [],
+    published: true,
+    text: {
+      fr: {
+        title: "Stage CI-TECH",
+        period: "janv. – mai 2024",
+        summary: "Un site e-commerce en PHP / Laravel, réalisé avec l’équipe de CI-TECH.",
+        context: "Stage de fin de formation en génie logiciel chez CI-TECH Sarl, à Cotonou.",
+        goal: "Livrer un site e-commerce avec l’équipe.",
+        role: "Développement en équipe.",
+        features: ["Site e-commerce"],
+        challenges: [],
+        pending: ["Ta part exacte dans le projet", "Lien ou captures"],
+      },
+      en: {
+        title: "CI-TECH internship",
+        period: "Jan – May 2024",
+        summary: "A PHP / Laravel e-commerce site, built with the CI-TECH team.",
+        context: "End-of-training software engineering internship at CI-TECH Sarl, in Cotonou.",
+        goal: "Ship an e-commerce site with the team.",
+        role: "Team development.",
+        features: ["E-commerce site"],
+        challenges: [],
+        pending: ["Your exact part in the project", "Link or screenshots"],
+      },
+    },
+  },
+  {
+    slug: "authentification-better-auth",
+    kind: "perso",
+    strand: "api",
+    stack: ["TypeScript", "Next.js", "Better Auth"],
+    links: [
+      { label: { fr: "Better-Auth sur GitHub", en: "Better-Auth on GitHub" }, href: `${GH}/Better-Auth` },
+      { label: { fr: "better-password-reset sur GitHub", en: "better-password-reset on GitHub" }, href: `${GH}/better-password-reset` },
+    ],
+    published: true,
+    text: {
+      fr: {
+        title: "Authentification Better Auth",
+        period: "2025",
+        summary: "Brancher une authentification complète, réinitialisation du mot de passe comprise.",
+        context: "Deux projets autour de la bibliothèque Better Auth.",
+        goal: "Maîtriser un flux d’authentification de bout en bout.",
+        role: "Projet personnel.",
+        features: ["Inscription et connexion", "Réinitialisation du mot de passe"],
+        challenges: [],
+      },
+      en: {
+        title: "Better Auth authentication",
+        period: "2025",
+        summary: "Wiring up full authentication, password reset included.",
+        context: "Two projects built around the Better Auth library.",
+        goal: "Master an end-to-end authentication flow.",
+        role: "Personal project.",
+        features: ["Sign-up and sign-in", "Password reset"],
+        challenges: [],
+      },
+    },
+  },
+  {
+    slug: "site-multilingue",
+    kind: "perso",
+    strand: "api",
+    stack: ["Next.js 15", "TypeScript", "next-intl", "Framer Motion"],
+    links: [{ label: { fr: "Code sur GitHub", en: "Code on GitHub" }, href: `${GH}/internalization` }],
+    published: true,
+    text: {
+      fr: {
+        title: "Site multilingue",
+        period: "2025",
+        summary: "Un site Next.js traduit, qui se souvient de la langue du visiteur.",
+        context: "Site Next.js internationalisé.",
+        goal: "Servir le même contenu en plusieurs langues.",
+        role: "Projet personnel.",
+        features: ["Traduction des contenus", "Langue mémorisée (cookie)", "Animations"],
+        challenges: [],
+        pending: ["Langues gérées", "Lien de démo"],
+      },
+      en: {
+        title: "Multilingual website",
+        period: "2025",
+        summary: "A translated Next.js site that remembers the visitor’s language.",
+        context: "An internationalized Next.js site.",
+        goal: "Serve the same content in several languages.",
+        role: "Personal project.",
+        features: ["Translated content", "Remembered language (cookie)", "Animations"],
+        challenges: [],
+        pending: ["Supported languages", "Demo link"],
+      },
+    },
+  },
+  {
+    slug: "gestion-de-presence",
+    kind: "perso",
+    strand: "web",
+    stack: ["Laravel", "PHP", "Blade"],
+    links: [{ label: { fr: "Code sur GitHub", en: "Code on GitHub" }, href: `${GH}/GestionPresence` }],
+    published: true,
+    text: {
+      fr: {
+        title: "Gestion de présence",
+        period: "2024",
+        summary: "Une plateforme de suivi des présences des étudiants et des formateurs d’une entreprise.",
+        context: "Une entreprise de formation devait suivre la présence de ses étudiants et de ses formateurs.",
+        goal: "Remplacer le suivi manuel par une plateforme simple.",
+        role: "Projet personnel.",
+        features: ["Présences des étudiants", "Présences des formateurs"],
+        challenges: [],
+        pending: ["Fonctionnalités détaillées", "Capture"],
+      },
+      en: {
+        title: "Attendance tracker",
+        period: "2024",
+        summary: "A platform to track attendance for a company’s students and trainers.",
+        context: "A training company needed to track attendance for its students and trainers.",
+        goal: "Replace manual tracking with a simple platform.",
+        role: "Personal project.",
+        features: ["Student attendance", "Trainer attendance"],
+        challenges: [],
+        pending: ["Detailed features", "Screenshot"],
+      },
+    },
+  },
+];
+
+const labSource: { label: Localized<string>; href?: string }[] = [
+  { label: { fr: "Chatbot (cours retravaillé)", en: "Chatbot (course, reworked)" } },
+  { label: { fr: "E-commerce + backend (cours retravaillé)", en: "E-commerce + backend (course, reworked)" } },
+  { label: { fr: "Product list with cart", en: "Product list with cart" }, href: "https://chic-vacherin-8e6a4b.netlify.app/" },
+  { label: { fr: "Compte à rebours d’anniversaire", en: "Birthday countdown" }, href: "https://countdown-years.netlify.app/" },
+  { label: { fr: "Registration form", en: "Registration form" } },
+  { label: { fr: "Extensions dashboard", en: "Extensions dashboard" } },
+  { label: { fr: "YouTube bento", en: "YouTube bento" } },
+  { label: { fr: "Interface Square", en: "Square interface" } },
+  { label: { fr: "Fury clone", en: "Fury clone" } },
+  { label: { fr: "Platform Blog", en: "Platform Blog" } },
+];
+
+function localize(p: ProjectSource, lang: Locale): Project {
+  const { stack: stackOverride, ...text } = p.text[lang];
+  return {
+    ...text,
+    slug: p.slug,
+    kind: p.kind,
+    strand: p.strand,
+    stack: stackOverride ?? p.stack,
+    links: p.links.map((l) => ({ href: l.href, label: l.label[lang] })),
+    images: p.images?.map((img) => ({ ...img, alt: img.alt[lang] })),
+    featured: p.featured,
+    published: p.published,
+  };
+}
+
+export const projectSlugs = sources.filter((p) => p.published).map((p) => p.slug);
+export const getProjects = (lang: Locale) => sources.filter((p) => p.published).map((p) => localize(p, lang));
+export const getFeaturedProjects = (lang: Locale) => getProjects(lang).filter((p) => p.featured);
+export const getExperiences = (lang: Locale) => getProjects(lang).filter((p) => p.kind !== "perso");
+export const getProject = (slug: string, lang: Locale) => getProjects(lang).find((p) => p.slug === slug);
+export const getLab = (lang: Locale): LabItem[] => labSource.map((l) => ({ label: l.label[lang], href: l.href }));
+

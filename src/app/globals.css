@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ---------- */
+@theme {
+  --color-ink: #13101d;
+  --color-deep: #0e0c16;
+  --color-panel: #1b1727;
+  --color-raise: #241f33;
+  --color-line: #332c47;
+  --color-text: #eee9f7;
+  --color-muted: #cbc4dd;
+  --color-violet: #9466ff;
+  --color-violet-text: #d0beff;
+  --color-aqua: #3dd6c8;
+  --color-orange: #ff8b42;
+  --color-orange-text: #ffae7a;
+  --color-pending: #ffd666;
+}
+
+@theme inline {
+  --font-display: var(--font-jost), system-ui, sans-serif;
+  --font-sans: var(--font-hind), system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
+  ::selection {
+    background: var(--color-violet);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-violet);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------- Fibres (signature) ---------- */
+@keyframes pulse-run {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+.fiber-pulse {
+  stroke-dasharray: 90 910;
+  animation: pulse-run var(--dur, 3.2s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes node-breathe {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.12); }
+}
+.node-breathe {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-breathe 3.2s ease-in-out infinite;
+}
+
+/* ---------- Traceroute ---------- */
+@keyframes hop-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.hop {
+  opacity: 0;
+  animation: hop-in 0.45s ease-out forwards;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+.caret {
+  animation: blink 1s steps(1) infinite;
+}
+
+/* ---------- Divers ---------- */
+.stripes {
+  background-image: repeating-linear-gradient(135deg, rgb(238 233 247 / 0.06) 0 2px, transparent 2px 20px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fiber-pulse, .node-breathe, .caret { animation: none !important; }
+  .fiber-pulse { stroke-dasharray: none; opacity: 0; }
+  .hop { animation-duration: 0.01s !important; }
+}
+
+/* ---------- Signature manuscrite ---------- */
+.signature {
+  font-family: var(--font-caveat), cursive;
+  font-weight: 500;
+}
+
+/* ---------- Puces de compétences ---------- */
+.skill-chip {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+.skill-chip:hover {
+  transform: translateY(-2px);
+  background-color: #2a2440;
+  box-shadow:
+    inset 0 0 0 1.5px var(--glow),
+    0 8px 22px -10px var(--glow);
+}
+@media (prefers-reduced-motion: reduce) {
+  .skill-chip:hover { transform: none; }
+}
