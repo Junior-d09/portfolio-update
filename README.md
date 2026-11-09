@@ -1,9 +1,9 @@
 # Portfolio · Junior Dofonsou
 
 Site portfolio de Junior Dofonsou, développeur web (frontend, API, e-commerce).
-Phase 1 du plan technique (doc ClickUp « Portfolio Junior Dofonsou · Plan technique ») : portfolio V1, sans base de données.
+Phases 1 et 2 du plan technique (doc ClickUp « Portfolio Junior Dofonsou · Plan technique ») : portfolio bilingue + formulaires de contact, devis et rendez-vous.
 
-**Stack** : Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · lucide-react · simple-icons (logos) · next/font (Jost, Hind, DM Mono, Caveat).
+**Stack** : Next.js 16 (App Router, Server Actions) · TypeScript · Tailwind CSS 4 · lucide-react · simple-icons (logos) · next/font (Jost, Hind, DM Mono, Caveat) · Supabase · Brevo ou Resend · Cloudflare Turnstile · Cal.com.
 
 **Langues** : français (`/fr`) et anglais (`/en`). La racine `/` redirige vers `/en` si le navigateur est en anglais, sinon vers `/fr`.
 
@@ -26,10 +26,47 @@ npm run dev                  # http://localhost:3000
 
 ## Variables d'environnement
 
-| Variable | Obligatoire | Rôle |
-| --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Oui en production | URL publique, utilisée par le SEO, le sitemap et l'image Open Graph |
-| `NEXT_PUBLIC_BOOKING_URL` | Non | Lien Cal.com ou Calendly. Vide : le bouton « Réserver un appel » est remplacé par LinkedIn / Contact |
+Copie `.env.example` en `.env.local` (Windows : `Copy-Item .env.example .env.local`). Tout est commenté dans le fichier.
+
+| Variable | Rôle |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | URL publique (SEO, sitemap, Open Graph). Obligatoire en production |
+| `NEXT_PUBLIC_CAL_LINK` | Lien Cal.com, ex. `juniordofonsou/30min` : agenda intégré dans Contact > Rendez-vous |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Enregistre les demandes en base. **La clé service_role est secrète** |
+| `EMAIL_PROVIDER`, `BREVO_API_KEY` ou `RESEND_API_KEY`, `EMAIL_FROM`, `CONTACT_TO` | E-mails : notification pour toi + accusé de réception pour le visiteur (Brevo ou Resend) |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | Anti-spam Cloudflare Turnstile |
+
+## Phase 2 · Formulaires (message, devis, rendez-vous)
+
+La page Contact a trois onglets : **Message**, **Devis** (guidé en 4 étapes) et **Rendez-vous** (Cal.com).
+Liens directs possibles : `/fr/contact#devis`, `/fr/contact#devis-shopify` (prestation présélectionnée), `/fr/contact#rdv`.
+
+**Ce qui se passe à l'envoi** (`src/app/[lang]/contact/actions.ts`) :
+1. Champ piège + envoi trop rapide → le robot croit que c'est envoyé, rien n'est enregistré.
+2. Validation de tous les champs côté serveur.
+3. Vérification Turnstile (si configuré).
+4. Limite : 3 demandes par heure et par connexion (IP hachée, jamais stockée en clair).
+5. Enregistrement dans Supabase, avec une référence `MSG-0001` / `DV-0001`.
+6. Deux e-mails (Brevo ou Resend) : une notification pour toi (tu réponds directement au visiteur) et un accusé de réception dans sa langue.
+
+**Sans aucune configuration**, en `npm run dev`, les formulaires marchent quand même : la demande s'affiche dans le terminal. En production, sans Supabase ni service d'e-mail, le formulaire affiche ton e-mail à la place.
+
+### Mise en place (une fois, environ 30 min)
+
+1. **Supabase** (gratuit) : crée un projet, ouvre *SQL Editor*, colle le contenu de `supabase/migrations/0001_leads.sql`, exécute. Récupère l'URL et la clé `service_role` dans *Project Settings > API*.
+2. **E-mails, au choix** :
+   - **Brevo** (gratuit, 300 e-mails par jour) : *Senders* > ajoute et valide ton adresse, puis *SMTP & API* > *API Keys* > crée une clé. Sans domaine vérifié, Brevo envoie quand même, avec une adresse d'expéditeur à lui. Dès que tu as un domaine, authentifie-le dans *Domains*.
+   - **Resend** (gratuit, 3 000 par mois) : sans domaine vérifié, il n'envoie qu'à ta propre adresse (notification oui, accusé de réception non).
+3. **Cloudflare Turnstile** (gratuit) : *Turnstile > Add site*, ajoute ton domaine et `localhost`, récupère les deux clés.
+4. **Cal.com** (gratuit) : crée un événement « Appel découverte » de 30 min, mets ton lien dans `NEXT_PUBLIC_CAL_LINK`.
+5. Ajoute les mêmes variables chez ton hébergeur (Netlify > Site configuration > Environment variables), puis redéploie.
+
+### Tester avant la mise en ligne
+- [ ] Un message et un devis arrivent dans ta boîte mail **et** dans Supabase (*Table Editor > leads*)
+- [ ] L'accusé de réception arrive, en français depuis `/fr` et en anglais depuis `/en`
+- [ ] 4 envois de suite → le 4e est refusé
+- [ ] Avec la clé publique `anon`, `leads` est illisible (RLS)
+- [ ] L'agenda Cal.com s'affiche dans l'onglet Rendez-vous
 
 ## Structure
 
@@ -106,6 +143,6 @@ Pense à définir `NEXT_PUBLIC_SITE_URL` dans les variables d'environnement de l
 
 ## Prochaines phases
 
-2. Conversion : formulaires message et devis (Server Actions + Zod + Supabase + Resend), Turnstile, Cal.com intégré
+2. ~~Conversion~~ : fait (voir plus haut)
 3. Admin : Supabase Auth, gestion des projets, services, demandes et rendez-vous
 4. Christ : assistant IA basé uniquement sur le contenu validé

@@ -165,7 +165,7 @@ export default async function ProjectPage({ params }: Props) {
                 </ul>
               </div>
             )}
-            <ButtonLink href={href(lang, "/contact")} className="w-full">
+            <ButtonLink href={href(lang, "/contact#devis")} className="w-full">
               {t.project.similar}
             </ButtonLink>
           </aside>

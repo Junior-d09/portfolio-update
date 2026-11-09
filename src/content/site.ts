@@ -27,6 +27,9 @@ export const site = {
   /** Un CV par langue, dans /public/cv. */
   cv: { fr: "/cv/CV-Junior-Dofonsou-FR.pdf", en: "/cv/CV-Junior-Dofonsou-EN.pdf" } satisfies Localized<string>,
   photo: "/images/junior-dofonsou.jpg",
+  /** Lien Cal.com (ex. "juniordofonsou/30min") : active la prise de RDV intégrée à la page Contact. */
+  calLink: process.env.NEXT_PUBLIC_CAL_LINK || null,
+  /** Lien de réservation externe (Calendly…), utilisé seulement si calLink est vide. */
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL || null,
   contact: {
     email: "christdofonsou@gmail.com",
@@ -35,6 +38,13 @@ export const site = {
     linkedin: "https://www.linkedin.com/in/juniordofonsou/",
   },
 } as const;
+
+/** Où mène le bouton « Réserver un appel » : l'onglet RDV si Cal.com est branché, sinon le lien externe. */
+export function bookingTarget(lang: Locale): { href: string; external: boolean } | null {
+  if (site.calLink) return { href: `/${lang}/contact#rdv`, external: false };
+  if (site.bookingUrl) return { href: site.bookingUrl, external: true };
+  return null;
+}
 
 export const location = (lang: Locale) => `${site.city}, ${site.country[lang]}`;
 

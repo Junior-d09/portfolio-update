@@ -13,10 +13,10 @@ interface HeaderProps {
   lang: Locale;
   t: Dictionary["nav"];
   cv: string;
-  bookingUrl: string | null;
+  booking: { href: string; external: boolean } | null;
 }
 
-export function Header({ lang, t, cv, bookingUrl }: HeaderProps) {
+export function Header({ lang, t, cv, booking }: HeaderProps) {
   const pathname = usePathname() ?? href(lang);
   const [open, setOpen] = useState(false);
 
@@ -37,8 +37,8 @@ export function Header({ lang, t, cv, bookingUrl }: HeaderProps) {
     };
   }, [open]);
 
-  const cta = bookingUrl
-    ? { href: bookingUrl, label: t.book, external: true }
+  const cta = booking
+    ? { href: booking.href, label: t.book, external: booking.external }
     : { href: href(lang, "/contact"), label: t.contactMe, external: false };
 
   return (

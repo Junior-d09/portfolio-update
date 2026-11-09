@@ -6,7 +6,7 @@ import { Footer } from "@/components/site/Footer";
 import { asLocale, locales, ogLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { alternates } from "@/i18n/seo";
-import { site } from "@/content/site";
+import { bookingTarget, site } from "@/content/site";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap" });
 const hind = Hind({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-hind", display: "swap" });
@@ -58,7 +58,7 @@ export default async function LangLayout({ children, params }: Props) {
         >
           {t.meta.skip}
         </a>
-        <Header lang={lang} t={t.nav} cv={site.cv[lang]} bookingUrl={site.bookingUrl} />
+        <Header lang={lang} t={t.nav} cv={site.cv[lang]} booking={bookingTarget(lang)} />
         <main id="contenu">{children}</main>
         <Footer lang={lang} />
       </body>

@@ -22,6 +22,7 @@ export function Fibers({ active = null, onHover, label, className }: FibersProps
     <svg
       viewBox="0 0 560 360"
       className={className}
+      overflow="visible"
       role="img"
       aria-label={label}
     >

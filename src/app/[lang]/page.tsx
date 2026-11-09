@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, CalendarDays, Linkedin, Mail, MessageCircle } from "lucide-react";
+import { ArrowUpRight, CalendarDays, FileText, MessageSquare } from "lucide-react";
 import { Hero } from "@/components/site/Hero";
 import { Traceroute } from "@/components/site/Traceroute";
 import { PersonJsonLd } from "@/components/site/PersonJsonLd";
@@ -14,7 +14,7 @@ import { asLocale, href } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getFeaturedProjects } from "@/content/projects";
 import { heroTech } from "@/content/skills";
-import { location, mailto, site } from "@/content/site";
+import { location, site } from "@/content/site";
 import { strandBg } from "@/lib/strands";
 import { cn } from "@/lib/cn";
 
@@ -26,11 +26,9 @@ export default async function HomePage({ params }: Props) {
   const h = t.home;
 
   const contactLinks = [
-    { icon: Mail, label: h.ctaEmail, href: mailto(h.mailSubject) },
-    { icon: MessageCircle, label: h.ctaWhatsapp, href: site.contact.whatsappHref },
-    site.bookingUrl
-      ? { icon: CalendarDays, label: h.ctaBook, href: site.bookingUrl }
-      : { icon: Linkedin, label: h.ctaLinkedin, href: site.contact.linkedin },
+    { icon: MessageSquare, label: h.ctaMessage, href: href(lang, "/contact#message") },
+    { icon: FileText, label: h.ctaQuote, href: href(lang, "/contact#devis") },
+    { icon: CalendarDays, label: h.ctaBook, href: href(lang, "/contact#rdv") },
   ];
 
   const tech = (
@@ -142,10 +140,8 @@ export default async function HomePage({ params }: Props) {
           <ul className="mt-8 grid gap-3 md:grid-cols-3">
             {contactLinks.map(({ icon: Icon, label, href: target }) => (
               <li key={label}>
-                <a
+                <Link
                   href={target}
-                  target={target.startsWith("http") ? "_blank" : undefined}
-                  rel="noreferrer"
                   className="group flex items-center justify-between rounded-2xl bg-ink/90 px-5 py-5 text-lg font-semibold text-text transition-transform hover:-translate-y-0.5"
                 >
                   <span className="flex items-center gap-3">
@@ -153,7 +149,7 @@ export default async function HomePage({ params }: Props) {
                     {label}
                   </span>
                   <ArrowUpRight size={20} aria-hidden className="transition-transform group-hover:translate-x-0.5" />
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

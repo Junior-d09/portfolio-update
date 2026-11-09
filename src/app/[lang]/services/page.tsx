@@ -3,11 +3,10 @@ import { Check } from "lucide-react";
 import { Section } from "@/components/site/Section";
 import { Kicker } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
-import { asLocale } from "@/i18n/config";
+import { asLocale, href } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { alternates } from "@/i18n/seo";
 import { getServices } from "@/content/services";
-import { mailto } from "@/content/site";
 import { strands } from "@/lib/strands";
 import { cn } from "@/lib/cn";
 
@@ -57,7 +56,7 @@ export default async function ServicesPage({ params }: Props) {
                 ))}
               </ul>
               <div className="mt-8 pt-2 md:mt-auto">
-                <ButtonLink href={mailto(`${t.quoteSubject} ${svc.title}`)} variant="ghost">
+                <ButtonLink href={href(lang, `/contact#devis-${svc.slug}`)} variant="ghost">
                   {t.quote}
                 </ButtonLink>
               </div>

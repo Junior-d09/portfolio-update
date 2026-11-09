@@ -47,7 +47,7 @@ export function Hero({ lang, t, strandText, tagline, location, timezone, availab
           </p>
           <p className="mt-4 max-w-[34rem] text-lg leading-relaxed text-muted md:text-xl">{tagline}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href={href(lang, "/contact")}>{t.start}</ButtonLink>
+            <ButtonLink href={href(lang, "/contact#devis")}>{t.start}</ButtonLink>
             <ButtonLink href={href(lang, "/projets")} variant="ghost">
               {t.seeProjects}
             </ButtonLink>
